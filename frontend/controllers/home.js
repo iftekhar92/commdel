@@ -5,8 +5,7 @@ var async = require('async');
 module.exports = {
     // the function to handle login page and after submit the page 
     index: function (req, res) {
-        var a1 =Schemas.Home.find();
-        console.log(a1);
+        
         res.render('home/index',{
             title: 'Commdel | Commitment Delivered',
             keywords:'',

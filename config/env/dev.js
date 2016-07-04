@@ -4,7 +4,7 @@
 var express = require('express');
 mongoose = require('mongoose');
 exports.config = function (app) {
-    mongoose.connect('mongodb://localhost:27017/commdel', function(err) {
+   mongoose.connect('mongodb://localhost:27017/commdel', function(err) {
         if (err) {
             console.log(err);
         }else{

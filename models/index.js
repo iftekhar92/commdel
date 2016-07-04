@@ -3,7 +3,7 @@
  */
 var mongoose = require('mongoose');
 exports.Schemas = {
-   
+    Users : require('./schemas/Users'),
     Home : require('./schemas/Home')
 }
 

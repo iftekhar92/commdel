@@ -12,7 +12,7 @@ var express = require('express')
         , busboy = require('connect-busboy');
 app.use(busboy())
         , multer = require('multer');
-
+var flash    = require('connect-flash');
 var RedisStore = require('connect-redis')(session),
         rClient = redis.createClient({}),
         sessionStore = new RedisStore({client: rClient});
@@ -23,7 +23,7 @@ global.rootPath = __dirname;
 /*global varibale define end*/
 
 // include common functions
-global.func =require('./components/functions.js');
+global.func = require('./components/functions.js');
 
 // Enable CORS
 var allowCrossDomain = function (req, res, next) {
@@ -33,11 +33,10 @@ var allowCrossDomain = function (req, res, next) {
     res.header("Access-Control-Allow-Credentials", true);
     next();
 };
-
 app.use(allowCrossDomain);
 
 // define the configuration
-app.set('port', process.env.PORT || 2000);
+app.set('port', process.env.PORT || 3000);
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -48,6 +47,7 @@ app.use(cookieParser());
 app.use(session({store: sessionStore, secret: 'ifti92', saveUninitialized: true, resave: true}));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // check enviroment and the use config accordingly
 require('./routes/index.js').apply(app);
@@ -58,7 +58,19 @@ if ('development' == app.get('env')) {
 } else {
     require('./config/env/prod').config(app);
 }
-http.listen(2000, function () {
+/*
+passport.use(new LocalStrategy(
+  function(email, password, done) {
+    Users.findOne({ email: username }, function (err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false); }
+      if (!user.verifyPassword(password)) { return done(null, false); }
+      return done(null, user);
+    });
+  }
+)); */ 
+
+http.listen(3000, function () {
     console.log('Express server listening on port *:' + app.get('port'));
 });
 
