@@ -1,7 +1,7 @@
 //CUSTOM JS
 
 //RESPONSIVE TAB JS STARTS
-	<!--Plug-in Initialisation-->
+//	<!--Plug-in Initialisation-->
     $(document).ready(function() {
 		
 		var winHeight = $( window ).height();
@@ -84,7 +84,7 @@ $("#industry-expertise").owlCarousel({
 	  
 });
 
-/ GOT TO TOP /
+// GOT TO TOP /
  $(function()
  {
   $.fn.scrollToTop=function(){
@@ -110,7 +110,7 @@ $("#industry-expertise").owlCarousel({
 });
 
 
-/ POP UP /
+// POP UP /
 $(document).ready(function(){
 		
 		$( ".service_segment_box" ).click(function() {
@@ -149,4 +149,15 @@ $(document).ready(function(){
 			$( ".popup_container" ).animate({bottom: "-500"}, 500, function() {});
 		});
 	});
+        
+ $(function () {
+        $('#supported').text('Supported/allowed: ' + !!screenfull.enabled);
+
+        if (!screenfull.enabled) {
+            return false;
+        }
+        $('#toggle').click(function () {
+            screenfull.toggle($('#container')[0]);
+        });
+    });       
 

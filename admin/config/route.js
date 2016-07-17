@@ -28,6 +28,10 @@ exports.apply = function (app){
     app.get('/admin/login/',$.controller('users').login);
     app.get('/admin/logout',$.controller('dashboard').logout);
     app.get('/admin/dashboard',$.controller('dashboard').index);
+    app.get('/admin/home',$.controller('home').index);
+    app.post('/admin/home',$.controller('home').index);
+    app.get('/admin/home/addSlider',$.controller('home').addSlider);
+    app.post('/admin/home/addSlider',$.controller('home').addSlider);
 };
 
 

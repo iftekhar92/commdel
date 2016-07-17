@@ -4,7 +4,8 @@
 var mongoose = require('mongoose');
 exports.Schemas = {
     Users : require('./schemas/Users'),
-    Home : require('./schemas/Home')
+    Home : require('./schemas/Home'),
+    Gallery : require('./schemas/Gallery')
 }
 
 

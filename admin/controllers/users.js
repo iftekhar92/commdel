@@ -5,17 +5,18 @@ var async = require('async');
 module.exports = {
     // the function to handle login page and after submit the page 
     index: function (req, res) {
-        if (req.user) {
-            res.redirect('/dashboard');
+        var sess = req.session;
+        if (sess.userInfo) {
+            res.redirect('/admin/dashboard');
         } else {
             res.render('login', {msg: '', title: 'Chat Application Login'});
         }
     },
     // the function to handle login page
     login: function (req, res) {
-        var sess='';
-        if (req.user) {
-            res.redirect('/admin/dashboard');
+        var sess = req.session;
+        if (sess.userInfo) {
+            res.redirect('/admin/dashboard/');
         } else {
             var email = req.body.email;
             var password = req.body.password;
@@ -29,25 +30,23 @@ module.exports = {
                     {
                         if (data.status == 1)
                         {
-                             sess = req.session;
-                             sess.userInfo = data;
+                            sess.userInfo = data;
                             ack = 'OK';
                             msg = "";
                         } else {
                             msg = "Status is inactive";
                         }
-                    }else{
-                       msg = "Invalid username/password"; 
+                    } else {
+                        msg = "Invalid username/password";
                     }
                 }
                 if (ack == 'OK')
                 {
-                    console.log("Loging Successfully."+sess.userInfo);
-                    //console.log(sess.userInfo._id);
+                    console.log("Loging Successfully." + sess.userInfo);
                     res.redirect('/admin/dashboard');
                 } else {
                     console.log("Loging Failled.");
-                    res.render('login', {msg: req.flash(msg) , title: 'Chat Application Login'});
+                    res.render('login', {msg: req.flash(msg), title: 'Chat Application Login'});
                 }
             });
         }
