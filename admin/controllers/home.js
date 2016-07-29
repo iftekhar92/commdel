@@ -19,12 +19,31 @@ module.exports = {
         var sess = req.session;
         var errorType = '';
         if (sess.userInfo) {
-            
             if (req.method === 'POST') {
-
+              //console.log(req.body);
+              var inputData = new Schemas.Gallery({image:req.body.image_hidden,path:rootPath + '/public/uploads/',captions:req.body.captions,types:"home_page_slider",orders:req.body.display_orders,createdOn:Date.now()});
+                inputData.save(function(err,result){
+                 //   console.log(err);
+                   if (err) {
+                           // throw new Error('oh no');
+                        }else{
+                          res.redirect('/admin/home');
+                          res.end();
+                        }
+                });
+            }
+            res.render('home/create', {title: 'Commdel Consulting: Home'});
+        } else {
+            res.render('login', {msg: '', title: 'Chat Application Login'});
+        }
+    },
+    upload: function (req, res) {
+          if (req.method === 'POST') {
                 var fileExtension = [".jpg", ".jpeg", ".png", ".gif"];
                 var busboy = req.busboy;
                 busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+                    var ack ='';
+                    var msg ='';
                     var random_string = fieldname + filename + Date.now() + Math.random();
                     newFilename = crypto.createHash('md5').update(random_string).digest('hex');
                     var ext = path.extname(filename).toLowerCase();
@@ -32,36 +51,25 @@ module.exports = {
                     {
                         if (fileExtension.indexOf(ext) != -1)
                         {
-                            /*file.on('data', function(chunk) {
-                             size += chunk.length;
-                             console.log(size); 
-                             });*/
                             newFilename = newFilename + ext;
                             image =newFilename;
                             fstream = fs.createWriteStream(rootPath + '/public/uploads/' + newFilename);
-                            var upload_status = file.pipe(fstream);
-                            errorType = "success";
-                            busboy.on('field', function (fieldname, val, fieldnameTruncated, valTruncated) {
-                                
-                            });
+                            file.pipe(fstream);
+                            ack ='OK';
+                            msg ="File Upload successfully";
                         } else {
-                            errorType = "invalid file";
+                            ack ='Error';
+                            msg ="Invalid File";
                         }
                     } else {
-                        console.log(ext);
+                        ack ='Error';
+                        msg ="Please select valid file";
                     }
-                    
-                   /* var inputData = new Schemas.Gallery({ image:newFilename,path:rootPath + '/public/uploads/',captions:'test',types:'home_page_slider',orders:'1'});
-		     inputData.save(function(err,result){
-                         console.log(result);
-                     }); */
+                    arr = {ack:ack,msg:msg,file_name:newFilename};
+		    res.jsonp(arr);
                 });
                 req.pipe(busboy);
             }
-            res.render('home/create', {title: 'Commdel Consulting: Home'});
-        } else {
-            res.render('login', {msg: '', title: 'Chat Application Login'});
-        }
     }
 };
 

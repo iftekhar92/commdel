@@ -20,6 +20,11 @@ module.exports = {
         } else {
             var email = req.body.email;
             var password = req.body.password;
+            
+            /*var inputData = new Schemas.Users({name:"iftekhar",email:"iftekhar.niet@gmail.com",password:"123456",status:1,role:1,reatedOn:'2016-07-17',modifdOn:'2016-07-17' });
+		     inputData.save(function(err,result){
+                         console.log(result);
+                     }); */
             Schemas.Users.findOne({email: email, password: password}, function (err, data) {
                 var ack, msg = '';
                 if (err)

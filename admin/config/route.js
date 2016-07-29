@@ -32,6 +32,7 @@ exports.apply = function (app){
     app.post('/admin/home',$.controller('home').index);
     app.get('/admin/home/addSlider',$.controller('home').addSlider);
     app.post('/admin/home/addSlider',$.controller('home').addSlider);
+    app.post('/admin/home/upload',$.controller('home').upload);
 };
 
 
